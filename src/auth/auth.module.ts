@@ -7,10 +7,14 @@ import { ConfigService } from '@nestjs/config';
 import { LocalStrategy } from './passport/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './passport/jwt.strategy';
+import { WifiModule } from '@/modules/wifi/wifi.module';
+import { MobileNetworkModule } from '@/modules/mobile-network/mobile-network.module';
 
 @Module({
   imports: [
     UsersModule,
+    WifiModule,
+    MobileNetworkModule,
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
         global: true,
@@ -21,10 +25,10 @@ import { JwtStrategy } from './passport/jwt.strategy';
       }),
       inject: [ConfigService],
     }),
-    PassportModule
+    PassportModule,
   ],
 
   controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],
 })
-export class AuthModule { }
+export class AuthModule {}
